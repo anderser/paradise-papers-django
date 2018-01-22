@@ -243,7 +243,7 @@
     }
 
     /**
-     * Clear and reset 
+     * Clear and reset
      */
     clear () {
       this._nodeSearchData([]);
