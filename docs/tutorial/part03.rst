@@ -26,7 +26,7 @@ Create The Models Directory:
 
 On The ``fetch_api`` folder, first, we need to remove the ``models.py`` file. Then we need to create a new folder called ``models``.  Inside the folder, you will need to add the files with the structure of the nodes. Each file will have the essential fields and methods of the data stored in Neo4j database. 
 
-.. [*] Note: Before we start creating our models we need to create a  ``__init__.py`` file inside the model’s folder so Python treat the directory as a module
+.. [*] Note: Before we start creating our models we need to create a  ``__init__.py`` file inside the model’s folder so Python treat the directory as a package.
 
 Start creating The Models Files:
 ===================================
@@ -41,7 +41,7 @@ To start we will create an ``entity.py`` file:
         RelationshipFrom
     )
 
-2. Create a class for the node call Entity. We are connecting to a Neo4j database instead of the regular Django database; therefore,  we are going to use  ``StructuredNode``.  This is the equivalent of  ``models.Model`` which is usually  used when creating a Models class in Django. When using ``StructuredNode`` , neomodel automatically creates a label for each class using it with the corresponding indexes and constraints.
+2. Create a class for the node called Entity. We are connecting to a Neo4j database instead of the regular Django database; therefore, we are going to use  ``StructuredNode``. This is the equivalent of ``models.Model`` which is usually used when creating a Models class in Django. When using ``StructuredNode`` , neomodel automatically creates a label for each class using it with the corresponding indexes and constraints.
 
  If you need ``ModelForm``, you will need to change ``StructuredNode`` to ``DjangoNode``. Also, you will need to add a ‘Meta’ class. For more reference see the documentation for django-neomodel_
 
@@ -52,7 +52,7 @@ To start we will create an ``entity.py`` file:
 
 3. The next step is to add the properties for the node. Each node property in the Neo4j database should be a property in the model class.
 
-The properties of  the ``Entity`` node in the database have the following scheme::
+The properties of the ``Entity`` node in the database have the following scheme::
 
         {
           "sourceID": "Panama Papers",
@@ -87,6 +87,11 @@ Therefore, the structure of the ``Entity`` class should be::
         node_id                            = StringProperty(index = True)
         status                             = StringProperty()
 
+On our case, the database we are using only have string values for the properties. However, there are several types of properties available; such as, IntegerProperty, ArrayProperty, DateProperty. In case you need to know more about this, go to this link_
+
+    .. _link: http://neomodel.readthedocs.io/en/latest/properties.html
+
+
 4. Add the relationships for the node::
 
     officers                 = RelationshipFrom('.officer.Officer', 'OFFICER_OF')
@@ -107,10 +112,10 @@ How **RelationshipFrom** and **RelationshipTo** works:
 
 
 * **RelationshipFrom** is an INCOMING relationship 
-* **RelationshipTo**  is an OUTGOING relationship 
+* **RelationshipTo** is an OUTGOING relationship 
 * Also, there is one call **Relationship** which can be either
 
-If  **RelationshipFrom**  be illustrated,  the output would be something like: 
+If **RelationshipFrom** be illustrated, the output would be something like: 
 
 .. image:: images/relfrom.png
    :width: 100%
